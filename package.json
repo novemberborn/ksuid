@@ -29,6 +29,7 @@
   "devDependencies": {
     "@novemberborn/as-i-preach": "^10.0.1",
     "ava": "^0.19.1",
+    "lolex": "^1.6.0",
     "nyc": "^11.0.2"
   },
   "nyc": {
