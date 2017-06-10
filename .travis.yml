@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - 8
+cache:
+  directories:
+    - $HOME/.npm
+before_install:
+  - npm install --global npm@^5.0.3
+  - npm --version
+install:
+  - npm install --prefer-offline
+after_success: ./node_modules/.bin/codecov --file=./coverage/lcov.info
