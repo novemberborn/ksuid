@@ -102,7 +102,7 @@ class KSUID {
       throw new TypeError(VALID_PAYLOAD_ASSERTION)
     }
 
-    return fromParts(timeInMs, payload)
+    return new KSUID(fromParts(timeInMs, payload))
   }
 
   static isValid (buffer) {
