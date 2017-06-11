@@ -1,12 +1,16 @@
 language: node_js
 node_js:
   - 8
+env:
+  - FRESH_DEPS=false
+  - FRESH_DEPS=true
 cache:
   directories:
     - $HOME/.npm
 before_install:
   - npm install --global npm@^5.0.3
   - npm --version
+  - if [[ ${FRESH_DEPS} == "true" ]]; then rm package-lock.json; fi
 install:
-  - npm install --prefer-offline
+  - if [[ ${FRESH_DEPS} == "true" ]]; then npm install --prefer-online; else npm install --prefer-offline; fi
 after_success: ./node_modules/.bin/codecov --file=./coverage/lcov.info
