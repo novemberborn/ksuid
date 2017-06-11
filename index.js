@@ -127,9 +127,11 @@ class KSUID {
       return new KSUID(decoded)
     }
 
-    const padded = Buffer.alloc(BYTE_LENGTH)
-    decoded.copy(padded, BYTE_LENGTH - decoded.byteLength)
-    return new KSUID(padded)
+    const buffer = Buffer.allocUnsafe(BYTE_LENGTH)
+    const padEnd = BYTE_LENGTH - decoded.byteLength
+    buffer.fill(0, 0, padEnd)
+    decoded.copy(buffer, padEnd)
+    return new KSUID(buffer)
   }
 }
 Object.defineProperty(KSUID.prototype, Symbol.toStringTag, {value: 'KSUID'})
