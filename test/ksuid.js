@@ -1,13 +1,21 @@
+import {randomBytes} from 'crypto'
+import {inspect} from 'util'
 import test from 'ava'
 import lolex from 'lolex'
 
 import KSUID from '../'
 
-lolex.install(14e11)
+const clock = lolex.install(14e11)
 
-test('created with the current time', t => {
+test.serial('created with the current time', t => {
   const x = KSUID.randomSync()
   t.is(x.date.valueOf(), 14e11)
+})
+
+test.serial('provides the uncorrected timestamp in seconds', t => {
+  clock.tick(5e3)
+  const x = KSUID.randomSync()
+  t.is(x.timestamp * 1e3, Date.now() - 14e11)
 })
 
 test('encodes as a string', t => {
@@ -38,4 +46,83 @@ test('encode and decode', t => {
   const x = KSUID.randomSync()
   const builtFromEncodedString = KSUID.parse(x.string)
   t.is(x.compare(builtFromEncodedString), 0)
+})
+
+test('throws if called without valid buffer', t => {
+  t.throws(() => new KSUID(), TypeError)
+  t.throws(() => new KSUID('foo'), TypeError)
+  t.throws(() => new KSUID(Buffer.from('foo')), TypeError)
+})
+
+test('buffer accessor returns new buffers', t => {
+  const initial = randomBytes(20)
+  const x = new KSUID(initial)
+  t.not(x.buffer, initial)
+  t.not(x.buffer, x.buffer)
+  t.true(x.buffer.equals(initial))
+})
+
+test('payload accessor returns payload buffer', t => {
+  const expected = Buffer.alloc(16, 0xFF)
+  const x = new KSUID(Buffer.concat([Buffer.alloc(4), expected]))
+  t.true(x.payload.equals(expected))
+})
+
+test('payload accessor returns new buffers', t => {
+  const expected = Buffer.alloc(16, 0xFF)
+  const x = new KSUID(Buffer.concat([Buffer.alloc(4), expected]))
+  t.not(x.payload, x.payload)
+})
+
+test('compare() returns 0 when comparing against a non-KSUID', t => {
+  t.is(KSUID.randomSync().compare({}), 0)
+})
+
+test('equal()', t => {
+  const x = KSUID.randomSync()
+  const y = KSUID.randomSync()
+  t.true(x.equals(x))
+  t.false(x.equals(y))
+  t.false(y.equals(x))
+  t.true(x.equals(new KSUID(x.buffer)))
+  t.true(new KSUID(x.buffer).equals(x))
+})
+
+test('toString()', t => {
+  const x = KSUID.randomSync()
+  const [, string] = /^KSUID \{ (.+?) \}$/.exec(x.toString())
+  t.is(KSUID.parse(string).string, string)
+})
+
+test('[util.inspect.custom]()', t => {
+  const x = KSUID.randomSync()
+  t.is(inspect(x), x.toString())
+})
+
+test('KSUID.random() returns a promise for a new instance', async t => {
+  const p = KSUID.random()
+  t.true(typeof p.then === 'function')
+  t.true(await p instanceof KSUID)
+})
+
+test('KSUID.fromParts() validates timeInMs', t => {
+  const {message: notInt} = t.throws(() => KSUID.fromParts('foo', Buffer.alloc(16)), TypeError)
+  const {message: tooEarly} = t.throws(() => KSUID.fromParts(0, Buffer.alloc(16)), TypeError)
+  const {message: tooLate} = t.throws(() => KSUID.fromParts(1e3 * (2 ** 32 - 1) + 14e11 + 1, Buffer.alloc(16)), TypeError)
+  t.true(new Set([notInt, tooEarly, tooLate]).size === 1)
+  t.is(notInt, 'Valid KSUID timestamps must be in milliseconds since 1970-01-01T00:00:00Z, no earlier than 2014-05-13T16:53:20Z and no later than 2150-06-19T23:21:35Z') // eslint-disable-line max-len
+})
+
+test('KSUID.fromParts() validates payload', t => {
+  const {message: notInt} = t.throws(() => KSUID.fromParts(Date.now(), 'foo'), TypeError)
+  const {message: tooSmall} = t.throws(() => KSUID.fromParts(Date.now(), Buffer.alloc(15)), TypeError)
+  const {message: tooLarge} = t.throws(() => KSUID.fromParts(Date.now(), Buffer.alloc(17)), TypeError)
+  t.true(new Set([notInt, tooSmall, tooLarge]).size === 1)
+  t.is(notInt, 'Valid KSUID payloads are 16 bytes')
+})
+
+test('KSUID.fromParts() creates a new instance', t => {
+  const x = KSUID.randomSync()
+  const y = KSUID.fromParts(x.timestamp * 1e3 + 14e11, x.payload)
+  t.true(x.equals(y))
 })
