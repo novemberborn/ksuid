@@ -84,6 +84,10 @@ class KSUID {
     return bufferLookup.get(this).compare(bufferLookup.get(other), 0, BYTE_LENGTH)
   }
 
+  equals (other) {
+    return this === other || (bufferLookup.has(other) && this.compare(other) === 0)
+  }
+
   toString () {
     return `${this[Symbol.toStringTag]} { ${this.string} }`
   }
