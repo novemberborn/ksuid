@@ -43,13 +43,8 @@ function fromParts (timeInMs, payload) {
   return Buffer.concat([timestampBuffer, payload], BYTE_LENGTH)
 }
 
-function randomSync () {
-  const payload = randomBytes(PAYLOAD_BYTE_LENGTH)
-  return fromParts(Date.now(), payload)
-}
-
 class KSUID {
-  constructor (buffer = randomSync()) {
+  constructor (buffer) {
     if (!KSUID.isValid(buffer)) {
       throw new TypeError(VALID_BUFFER_ASSERTION)
     }
@@ -84,6 +79,11 @@ class KSUID {
 
   static async random () {
     const payload = await asyncRandomBytes(PAYLOAD_BYTE_LENGTH)
+    return new KSUID(fromParts(Date.now(), payload))
+  }
+
+  static randomSync () {
+    const payload = randomBytes(PAYLOAD_BYTE_LENGTH)
     return new KSUID(fromParts(Date.now(), payload))
   }
 

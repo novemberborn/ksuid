@@ -6,7 +6,7 @@ import KSUID from '../'
 lolex.install(14e11)
 
 test('created with the current time', t => {
-  const x = new KSUID()
+  const x = KSUID.randomSync()
   t.is(x.date.valueOf(), 14e11)
 })
 
@@ -35,7 +35,7 @@ test('can parse strings', t => {
 })
 
 test('encode and decode', t => {
-  const x = new KSUID()
+  const x = KSUID.randomSync()
   const builtFromEncodedString = KSUID.parse(x.string)
   t.is(x.compare(builtFromEncodedString), 0)
 })
