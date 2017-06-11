@@ -43,13 +43,19 @@ function fromParts (timeInMs, payload) {
   return Buffer.concat([timestampBuffer, payload], BYTE_LENGTH)
 }
 
+const bufferLookup = new WeakMap()
+
 class KSUID {
   constructor (buffer) {
     if (!KSUID.isValid(buffer)) {
       throw new TypeError(VALID_BUFFER_ASSERTION)
     }
 
-    this.buffer = buffer
+    bufferLookup.set(this, buffer)
+    Object.defineProperty(this, 'buffer', {
+      enumerable: true,
+      get () { return Buffer.from(buffer) }
+    })
   }
 
   get date () {
@@ -57,24 +63,25 @@ class KSUID {
   }
 
   get timestamp () {
-    return this.buffer.readUInt32BE(0)
+    return bufferLookup.get(this).readUInt32BE(0)
   }
 
   get payload () {
-    return this.buffer.slice(TIMESTAMP_BYTE_LENGTH, BYTE_LENGTH)
+    const payload = bufferLookup.get(this).slice(TIMESTAMP_BYTE_LENGTH, BYTE_LENGTH)
+    return Buffer.from(payload)
   }
 
   get string () {
-    const encoded = base62.encode(this.buffer, STRING_ENCODED_LENGTH)
+    const encoded = base62.encode(bufferLookup.get(this), STRING_ENCODED_LENGTH)
     return encoded.padStart(STRING_ENCODED_LENGTH, '0')
   }
 
   compare (other) {
-    if (!other || other[Symbol.toStringTag] !== 'ksuid') {
+    if (!bufferLookup.has(other)) {
       return 0
     }
 
-    return this.buffer.compare(other.buffer, 0, BYTE_LENGTH)
+    return bufferLookup.get(this).compare(bufferLookup.get(other), 0, BYTE_LENGTH)
   }
 
   static async random () {
