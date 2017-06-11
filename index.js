@@ -1,7 +1,7 @@
 'use strict'
 
 const {randomBytes} = require('crypto')
-const {promisify} = require('util')
+const {promisify, inspect: {custom: customInspectSymbol}} = require('util')
 const base62 = require('./base62')
 
 const asyncRandomBytes = promisify(randomBytes)
@@ -82,6 +82,14 @@ class KSUID {
     }
 
     return bufferLookup.get(this).compare(bufferLookup.get(other), 0, BYTE_LENGTH)
+  }
+
+  toString () {
+    return `${this[Symbol.toStringTag]} { ${this.string} }`
+  }
+
+  [customInspectSymbol] () {
+    return this.toString()
   }
 
   static async random () {
