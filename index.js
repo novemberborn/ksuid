@@ -27,7 +27,7 @@ const STRING_ENCODED_LENGTH = 27
 
 const TIME_IN_MS_ASSERTION = `Valid KSUID timestamps must be in milliseconds since ${new Date(0).toISOString()},
   no earlier than ${new Date(EPOCH_IN_MS).toISOString()} and no later than ${new Date(MAX_TIME_IN_MS).toISOString()}
-`.trim().replace(/\s+/, ' ').replace(/\.000Z/g, 'Z')
+`.trim().replace(/(\n|\s)+/g, ' ').replace(/\.000Z/g, 'Z')
 
 const VALID_ENCODING_ASSERTION = `Valid encoded KSUIDs are ${STRING_ENCODED_LENGTH} characters`
 
