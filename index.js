@@ -124,7 +124,7 @@ class KSUID {
     return new KSUID(padded)
   }
 }
-Object.defineProperty(KSUID.prototype, Symbol.toStringTag, {value: 'ksuid'})
+Object.defineProperty(KSUID.prototype, Symbol.toStringTag, {value: 'KSUID'})
 // A string-encoded maximum value for a KSUID
 Object.defineProperty(KSUID, 'MAX_STRING_ENCODED', {value: 'aWgEPTl1tmebfsQzFP4bxwgy80V'})
 
