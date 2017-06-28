@@ -126,3 +126,9 @@ test('KSUID.fromParts() creates a new instance', t => {
   const y = KSUID.fromParts(x.timestamp * 1e3 + 14e11, x.payload)
   t.true(x.equals(y))
 })
+
+test('snapshots', t => {
+  const id = KSUID.fromParts(new Date('2017-06-28').valueOf(), Buffer.from('decafbad'.repeat(4), 'hex'))
+  t.snapshot(id, 'Raw KSUID')
+  t.snapshot(id.string, 'String KSUID')
+})
