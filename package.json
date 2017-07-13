@@ -31,7 +31,7 @@
     "@novemberborn/as-i-preach": "^10.1.0",
     "ava": "^0.20.0",
     "codecov": "^2.2.0",
-    "lolex": "^1.6.0",
+    "lolex": "^2.0.0",
     "nyc": "^11.0.3"
   },
   "nyc": {
