@@ -5,7 +5,7 @@ import lolex from 'lolex'
 
 import KSUID from '../'
 
-const clock = lolex.install(14e11)
+const clock = lolex.install({now: 14e11})
 
 test.serial('created with the current time', t => {
   const x = KSUID.randomSync()
