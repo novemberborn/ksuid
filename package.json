@@ -8,9 +8,9 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "coverage": "nyc npm -s run test",
+    "coverage": "nyc npm run test",
     "lint": "as-i-preach",
-    "pretest": "npm run -s lint",
+    "pretest": "npm run lint",
     "test": "ava"
   },
   "repository": {
