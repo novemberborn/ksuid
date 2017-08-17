@@ -7,6 +7,11 @@
   },
   "main": "index.js",
   "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "base62.js"
+  ],
   "scripts": {
     "coverage": "nyc npm run test",
     "lint": "as-i-preach",
