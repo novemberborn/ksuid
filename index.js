@@ -1,17 +1,29 @@
 'use strict'
 
 const {randomBytes} = require('crypto')
-const {promisify, inspect: {custom: customInspectSymbol}} = require('util')
+const {inspect: {custom: customInspectSymbol}} = require('util')
+const padStart = require('string.prototype.padstart')
 const base62 = require('./base62')
 
-const asyncRandomBytes = promisify(randomBytes)
+function asyncRandomBytes (size) {
+  return new Promise((resolve, reject) => {
+    randomBytes(size, (err, bytes) => {
+      /* istanbul ignore if */
+      if (err) {
+        reject(err)
+      } else {
+        resolve(bytes)
+      }
+    })
+  })
+}
 
 // KSUID's epoch starts more recently so that the 32-bit number space gives a
 // significantly higher useful lifetime of around 136 years from March 2014.
 // This number (14e11) was picked to be easy to remember.
 const EPOCH_IN_MS = 14e11
 
-const MAX_TIME_IN_MS = 1e3 * (2 ** 32 - 1) + EPOCH_IN_MS
+const MAX_TIME_IN_MS = 1e3 * (Math.pow(2, 32) - 1) + EPOCH_IN_MS
 
 // Timestamp is a uint32
 const TIMESTAMP_BYTE_LENGTH = 4
@@ -73,7 +85,7 @@ class KSUID {
 
   get string () {
     const encoded = base62.encode(bufferLookup.get(this), STRING_ENCODED_LENGTH)
-    return encoded.padStart(STRING_ENCODED_LENGTH, '0')
+    return padStart(encoded, STRING_ENCODED_LENGTH, '0')
   }
 
   compare (other) {
@@ -96,9 +108,8 @@ class KSUID {
     return this.toString()
   }
 
-  static async random () {
-    const payload = await asyncRandomBytes(PAYLOAD_BYTE_LENGTH)
-    return new KSUID(fromParts(Date.now(), payload))
+  static random () {
+    return asyncRandomBytes(PAYLOAD_BYTE_LENGTH).then(payload => new KSUID(fromParts(Date.now(), payload)))
   }
 
   static randomSync () {
