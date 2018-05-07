@@ -1,6 +1,8 @@
 # ksuid
 
-A Node.js implementation of [Segment's KSUID library](https://github.com/segmentio/ksuid). Requires Node.js 8.
+A Node.js implementation of [Segment's KSUID
+library](https://github.com/segmentio/ksuid). Requires Node.js 6.
+
 
 # Usage
 
@@ -19,4 +21,3 @@ var ksuid = KSUID.parse("0pdbEZZEWoCXaegkF1IjoAmTOqf");
 console.log(ksuid.date);
 console.log(ksuid.timestamp);
 ```
-

@@ -5,7 +5,7 @@ import lolex from 'lolex'
 
 import KSUID from '../'
 
-const clock = lolex.install(14e11)
+const clock = lolex.install({now: 14e11, toFake: ['Date']})
 
 test.serial('created with the current time', t => {
   const x = KSUID.randomSync()
@@ -125,4 +125,10 @@ test('KSUID.fromParts() creates a new instance', t => {
   const x = KSUID.randomSync()
   const y = KSUID.fromParts(x.timestamp * 1e3 + 14e11, x.payload)
   t.true(x.equals(y))
+})
+
+test('snapshots', t => {
+  const id = KSUID.fromParts(new Date('2017-06-28').valueOf(), Buffer.from('decafbad'.repeat(4), 'hex'))
+  t.snapshot(id, 'Raw KSUID')
+  t.snapshot(id.string, 'String KSUID')
 })

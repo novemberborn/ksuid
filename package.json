@@ -1,16 +1,21 @@
 {
   "name": "ksuid",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "description": "Node.js implementation of K-Sortable Globally Unique IDs",
   "engine": {
     "node": ">=8"
   },
   "main": "index.js",
   "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "base62.js"
+  ],
   "scripts": {
-    "coverage": "nyc npm -s run test",
+    "coverage": "nyc npm run test",
     "lint": "as-i-preach",
-    "pretest": "npm run -s lint",
+    "pretest": "npm run lint",
     "test": "ava"
   },
   "repository": {
@@ -27,12 +32,15 @@
     "url": "https://github.com/novemberborn/ksuid/issues"
   },
   "homepage": "https://github.com/novemberborn/ksuid#readme",
+  "dependencies": {
+    "string.prototype.padstart": "^3.0.0"
+  },
   "devDependencies": {
-    "@novemberborn/as-i-preach": "^10.0.1",
-    "ava": "^0.19.1",
+    "@novemberborn/as-i-preach": "^10.1.0",
+    "ava": "^0.21.0",
     "codecov": "^2.2.0",
-    "lolex": "^1.6.0",
-    "nyc": "^11.0.2"
+    "lolex": "^2.1.1",
+    "nyc": "^11.0.3"
   },
   "nyc": {
     "reporter": [
