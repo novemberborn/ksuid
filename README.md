@@ -9,10 +9,10 @@ library](https://github.com/segmentio/ksuid). Requires Node.js 6.
 require the module:
 
 ```
-const ksuid = require( 'ksuid' );
+const ksuid = require('ksuid');
 ```
 
-create a KSUID instance in three different ways:
+Create a KSUID instance in three different ways:
 
 ```
 // synchronous
@@ -24,14 +24,13 @@ let ksuidFromAsync = await ksuid.random();
 // from user-provided input (in case you don't want timestamp to be *now* for example.)
 const {randomBytes} = require('crypto')
 let yesterdayInMS = Date.now() - 86400 * 1000;
-let randomBytes = randomBytes(16);
-let yesterdayKSUID = ksuid.fromParts(yesterdayInMS,randomBytes)
+let randomBytesSequence = randomBytes(16);
+let yesterdayKSUID = ksuid.fromParts(yesterdayInMS,randomBytesSequence)
 ```
 
 Once the KSUID is generated, use it:
 ```
 let todayKSUID = ksuid.randomSync();
-
 
 todayKSUID.string // the string representation of the ksuid
 
@@ -49,7 +48,7 @@ todayKSUID.compare(todayKSUID) // 0
 yesterdayKSUID.compare(todayKSUID) // -1
 ```
 
-Equality Check
+Equality Check:
 ```
 todayKSUID.equals(todayKSUID) // true
 todayKSUID.equals(yesterdayKSUID) // false
