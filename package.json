@@ -37,10 +37,10 @@
   },
   "devDependencies": {
     "@novemberborn/as-i-preach": "^10.1.0",
-    "ava": "^0.21.0",
-    "codecov": "^2.2.0",
-    "lolex": "^2.1.1",
-    "nyc": "^11.0.3"
+    "ava": "1.0.0-beta.4",
+    "codecov": "^3.0.2",
+    "lolex": "^2.6.0",
+    "nyc": "^11.8.0"
   },
   "nyc": {
     "reporter": [
