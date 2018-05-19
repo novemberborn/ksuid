@@ -3,53 +3,87 @@
 A Node.js implementation of [Segment's KSUID
 library](https://github.com/segmentio/ksuid). Requires Node.js 6.
 
-## Getting Started
+## Installation
 
-
-require the module:
-
-```
-const ksuid = require('ksuid');
+```console
+$ npm install ksuid
 ```
 
-Create a KSUID instance in three different ways:
+## Usage
 
-```
-// synchronous
-let ksuidFromSync = ksuid.randomSync();
+Require the module:
 
-// asynchronous
-let ksuidFromAsync = await ksuid.random();
-
-// from user-provided input (in case you don't want timestamp to be *now* for example.)
-const {randomBytes} = require('crypto')
-let yesterdayInMS = Date.now() - 86400 * 1000;
-let randomBytesSequence = randomBytes(16);
-let yesterdayKSUID = ksuid.fromParts(yesterdayInMS,randomBytesSequence)
+```js
+const KSUID = require('ksuid')
 ```
 
-Once the KSUID is generated, use it:
-```
-let todayKSUID = ksuid.randomSync();
+### Creation
 
-todayKSUID.string // the string representation of the ksuid
+You can create a new instance synchronously:
 
-todayKSUID.date // the javascript Date representation of the ksuid date
-
-todayKSUID.timestamp // the ksuid timestamp 
-
-todayKSUID.payload // the random bytes portion of the id
+```js
+const ksuidFromSync = KSUID.randomSync()
 ```
 
-Comparison:
+Or asynchronously:
+
+```js
+const ksuidFromAsync = await KSUID.random()
 ```
+
+Or you can compose it using a timestamp and a 16-byte payload:
+
+```js
+const crypto = require('crypto')
+const yesterdayInMs = Date.now() - 86400 * 1000
+const payload = crypto.randomBytes(16)
+const yesterdayKSUID = KSUID.fromParts(yesterdayInMs, payload)
+```
+
+You can parse a valid string-encoded KSUID:
+
+```js
+const maxKsuid = KSUID.parse('aWgEPTl1tmebfsQzFP4bxwgy80V')
+```
+
+Finally, you can create a KSUID from a 20-byte buffer:
+
+```js
+const fromBuffer = new KSUID(buffer)
+```
+
+### Properties
+
+Once the KSUID has been created, use it:
+
+```js
+ksuidFromSync.string // The KSUID encoded as a fixed-length string
+ksuidFromSync.date // The timestamp portion of the KSUID, as a `Date` object
+ksuidFromSync.timestamp // The raw timestamp portion of the KSUID, as a number
+ksuidFromSync.payload // A Buffer containing the 16-byte payload of the KSUID (typically a random value)
+```
+
+### Comparisons
+
+You can compare KSUIDs:
+
+```js
 todayKSUID.compare(yesterdayKSUID) // 1
 todayKSUID.compare(todayKSUID) // 0
 yesterdayKSUID.compare(todayKSUID) // -1
 ```
 
-Equality Check:
-```
+And check for equality:
+
+```js
 todayKSUID.equals(todayKSUID) // true
 todayKSUID.equals(yesterdayKSUID) // false
+```
+
+### Validation
+
+You can check whether a particular buffer is a valid KSUID:
+
+```js
+KSUID.isValid(buffer) // Boolean
 ```
