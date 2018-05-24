@@ -1,0 +1,123 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const path = require( 'path' );
+const KSUID = require( path.resolve( path.join( __dirname, 'index.js' ) ) );
+const yargs = require( 'yargs' );
+
+process.on( 'unhandledRejection', r => console.error( r ) );
+
+const FORMATS = {
+    string: id => {
+        return id.string;
+    },
+
+    inspect: id => {
+        return `
+REPRESENTATION:
+
+  String: ${ id.string }
+     Raw: ${ id.raw.toString( 'hex' ).toUpperCase() }
+
+COMPONENTS:
+
+       Time: ${ id.date.toISOString() }
+  Timestamp: ${ id.timestamp }
+    Payload: ${ id.payload.toString( 'hex' ).toUpperCase() }
+`;
+    },
+
+    time: id => {
+        return id.date.toISOString();
+    },
+
+    timestamp: id => {
+        return `${ id.timestamp }`;
+    },
+
+    payload: id => {
+        return id.payload.toString( 'hex' ).toUpperCase();
+    },
+
+    raw: id => {
+        return id.raw.toString( 'hex' ).toUpperCase();
+    },
+
+    template: ( id, template ) => {
+        if ( !template ) {
+            console.error( 'No template specified!' );
+            process.exit( 1 );
+        }
+
+        const input = {
+            String: id.string,
+            Raw: id.raw.toString( 'hex' ).toUpperCase(),
+            Time: id.date.toISOString(),
+            Timestamp: id.timestamp,
+            Payload: id.payload.toString( 'hex' ).toUpperCase()
+        };
+
+        return template.replace( /{{\s*\.(.*?)\s*}}/g, ( matched, key ) => {
+            return input[ key ];
+        } );
+    }
+};
+
+const options = yargs
+    .option( 'num', {
+        alias: 'n',
+        describe: 'number of ksuids to generate',
+        default: 0
+    } )
+    .option( 'format', {
+        alias: 'f',
+        describe: 'specify a formatting: string (default), inspect, time, timestamp, payload, raw, or template.',
+        default: 'string'
+    } )
+    .option( 'template', {
+        alias: 't',
+        describe: 'specify a template'
+    } )
+    .option( 'verbose', {
+        alias: 'v',
+        describe: 'turn on verbose mode',
+        default: false
+    } )
+    .fail( ( message, error ) => {
+        if ( error ) {
+            throw error;
+        }
+
+        if ( message ) {
+            console.error( message );
+        }
+
+        process.exit( 1 );
+    } )
+    .help()
+    .argv;
+
+const ids = options._.map( id => {
+    return KSUID.parse( id );
+} );
+
+if ( ids.length === 0 || options.num ) {
+    for ( let i = 0; i < ( options.num || 1 ); ++i ) {
+        ids.push( KSUID.randomSync() );
+    }
+}
+
+const formatter = FORMATS[ options.format.trim().toLowerCase() ];
+if ( !formatter ) {
+    console.error( `Unknown format: ${ options.format }` );
+    process.exit( 1 );
+}
+
+ids.forEach( id => {
+    if ( options.verbose ) {
+        process.stdout.write( `${ id.string }: ` );
+    }
+
+    console.log( formatter( id, options.template ) );
+} );

@@ -88,6 +88,10 @@ class KSUID {
     return padStart(encoded, STRING_ENCODED_LENGTH, '0')
   }
 
+  get raw () {
+    return Buffer.from(bufferLookup.get(this).slice(0))
+  }
+
   compare (other) {
     if (!bufferLookup.has(other)) {
       return 0
