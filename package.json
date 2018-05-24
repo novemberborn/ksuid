@@ -6,6 +6,7 @@
     "node": ">=6 <7 || >=8 <9 || >=10"
   },
   "main": "index.js",
+  "bin": "./ksuid",
   "types": "index.d.ts",
   "files": [
     "index.js",
@@ -33,7 +34,8 @@
   },
   "homepage": "https://github.com/novemberborn/ksuid#readme",
   "dependencies": {
-    "string.prototype.padstart": "^3.0.0"
+    "string.prototype.padstart": "^3.0.0",
+    "yargs": "^11.0.0"
   },
   "devDependencies": {
     "@novemberborn/as-i-preach": "^10.1.0",
