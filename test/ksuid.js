@@ -62,6 +62,18 @@ test('buffer accessor returns new buffers', t => {
   t.true(x.buffer.equals(initial))
 })
 
+test('raw accessor returns raw buffer', t => {
+  const expected = Buffer.alloc(20, 0xFF)
+  const x = new KSUID(expected)
+  t.true(x.raw.equals(expected))
+})
+
+test('raw accessor returns new buffers', t => {
+  const expected = Buffer.alloc(20, 0xFF)
+  const x = new KSUID(expected)
+  t.not(x.raw, x.raw)
+})
+
 test('payload accessor returns payload buffer', t => {
   const expected = Buffer.alloc(16, 0xFF)
   const x = new KSUID(Buffer.concat([Buffer.alloc(4), expected]))
