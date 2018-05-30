@@ -70,6 +70,10 @@ class KSUID {
     })
   }
 
+  get raw () {
+    return Buffer.from(bufferLookup.get(this).slice(0))
+  }
+
   get date () {
     return new Date(1e3 * this.timestamp + EPOCH_IN_MS)
   }

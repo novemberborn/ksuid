@@ -1,6 +1,7 @@
 /// <reference types="node" />
 export declare class KSUID {
     constructor(buffer: Buffer);
+    readonly raw: Buffer;
     readonly date: Date;
     readonly timestamp: number;
     readonly payload: Buffer;
