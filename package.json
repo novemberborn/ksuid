@@ -16,7 +16,7 @@
     "coverage": "nyc npm run test",
     "lint": "as-i-preach",
     "pretest": "npm run lint",
-    "test": "ava"
+    "test": "tsc --noEmit test/typings.ts && ava"
   },
   "repository": {
     "type": "git",
@@ -37,10 +37,12 @@
   },
   "devDependencies": {
     "@novemberborn/as-i-preach": "^10.1.0",
+    "@types/node": "^10.3.0",
     "ava": "1.0.0-beta.4",
     "codecov": "^3.0.2",
     "lolex": "^2.6.0",
-    "nyc": "^11.8.0"
+    "nyc": "^11.8.0",
+    "typescript": "^2.9.1"
   },
   "nyc": {
     "reporter": [

@@ -1,5 +1,5 @@
 /// <reference types="node" />
-export declare class KSUID {
+declare class KSUID {
     constructor(buffer: Buffer);
     readonly raw: Buffer;
     readonly date: Date;
@@ -15,3 +15,4 @@ export declare class KSUID {
     static isValid(buffer: Buffer): boolean;
     static parse(str: string): KSUID;
 }
+export = KSUID

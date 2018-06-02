@@ -20,6 +20,12 @@ Require the module:
 const KSUID = require('ksuid')
 ```
 
+Or, using [TypeScript](https://www.typescriptlang.org/):
+
+```typescript
+import KSUID = require('ksuid')
+```
+
 ### Creation
 
 You can create a new instance synchronously:
