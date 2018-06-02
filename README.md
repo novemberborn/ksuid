@@ -58,6 +58,7 @@ Once the KSUID has been created, use it:
 
 ```js
 ksuidFromSync.string // The KSUID encoded as a fixed-length string
+ksuidFromSync.raw // The KSUID as a 20-byte buffer
 ksuidFromSync.date // The timestamp portion of the KSUID, as a `Date` object
 ksuidFromSync.timestamp // The raw timestamp portion of the KSUID, as a number
 ksuidFromSync.payload // A Buffer containing the 16-byte payload of the KSUID (typically a random value)
