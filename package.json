@@ -1,6 +1,6 @@
 {
   "name": "ksuid",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Node.js implementation of K-Sortable Globally Unique IDs",
   "engine": {
     "node": ">=6 <7 || >=8 <9 || >=10"
