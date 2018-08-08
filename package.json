@@ -33,7 +33,9 @@
   },
   "homepage": "https://github.com/novemberborn/ksuid#readme",
   "dependencies": {
-    "string.prototype.padstart": "^3.0.0"
+    "isomorphic-crypto": "^3.0.0",
+    "string.prototype.padstart": "^3.0.0",
+    "util": "^0.11.0"
   },
   "devDependencies": {
     "@novemberborn/as-i-preach": "^10.1.0",

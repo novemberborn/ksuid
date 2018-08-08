@@ -1,6 +1,6 @@
 'use strict'
 
-const {randomBytes} = require('crypto')
+const {randomBytes} = require('isomorphic-crypto')
 const {inspect: {custom: customInspectSymbol}} = require('util')
 const padStart = require('string.prototype.padstart')
 const base62 = require('./base62')
