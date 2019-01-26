@@ -13,10 +13,8 @@
     "base62.js"
   ],
   "scripts": {
-    "coverage": "nyc npm run test",
     "lint": "as-i-preach",
-    "pretest": "npm run lint",
-    "test": "tsc --noEmit test/typings.ts && ava"
+    "test": "npm run -s lint && tsc --noEmit test/typings.ts && nyc ava"
   },
   "repository": {
     "type": "git",

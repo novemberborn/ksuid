@@ -30,5 +30,4 @@ install: |
       exit 1;
     fi
   fi
-script: npm run coverage
 after_success: npx codecov --file=./coverage/lcov.info
