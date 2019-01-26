@@ -36,12 +36,12 @@
   },
   "devDependencies": {
     "@novemberborn/as-i-preach": "^10.1.0",
-    "@types/node": "^10.3.0",
-    "ava": "1.0.0-beta.4",
-    "codecov": "^3.0.2",
-    "lolex": "^2.6.0",
-    "nyc": "^11.8.0",
-    "typescript": "^2.9.1"
+    "@types/node": "^10.12.18",
+    "ava": "^1.1.0",
+    "codecov": "^3.1.0",
+    "lolex": "^3.0.0",
+    "nyc": "^13.1.0",
+    "typescript": "^3.2.4"
   },
   "nyc": {
     "reporter": [

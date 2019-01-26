@@ -3,7 +3,7 @@ import {inspect} from 'util'
 import test from 'ava'
 import lolex from 'lolex'
 
-import KSUID from '../'
+import KSUID from '..'
 
 const clock = lolex.install({now: 14e11, toFake: ['Date']})
 
