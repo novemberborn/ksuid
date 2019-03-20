@@ -156,5 +156,7 @@ class KSUID {
 Object.defineProperty(KSUID.prototype, Symbol.toStringTag, {value: 'KSUID'})
 // A string-encoded maximum value for a KSUID
 Object.defineProperty(KSUID, 'MAX_STRING_ENCODED', {value: 'aWgEPTl1tmebfsQzFP4bxwgy80V'})
+// A string-encoded minimum value for a KSUID
+Object.defineProperty(KSUID, 'MIN_STRING_ENCODED', {value: '000000000000000000000000000'})
 
 module.exports = KSUID
