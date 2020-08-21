@@ -99,14 +99,14 @@ class KSUID {
     return this.toString()
   }
 
-  static async random () {
+  static async random (time = Date.now()) {
     const payload = await asyncRandomBytes(PAYLOAD_BYTE_LENGTH)
-    return new KSUID(fromParts(Date.now(), payload))
+    return new KSUID(fromParts(Number(time), payload))
   }
 
-  static randomSync () {
+  static randomSync (time = Date.now()) {
     const payload = randomBytes(PAYLOAD_BYTE_LENGTH)
-    return new KSUID(fromParts(Date.now(), payload))
+    return new KSUID(fromParts(Number(time), payload))
   }
 
   static fromParts (timeInMs, payload) {
