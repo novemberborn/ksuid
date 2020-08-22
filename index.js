@@ -2,7 +2,6 @@
 
 const {randomBytes} = require('crypto')
 const {inspect: {custom: customInspectSymbol}} = require('util')
-const padStart = require('string.prototype.padstart')
 const base62 = require('./base62')
 
 function asyncRandomBytes (size) {
@@ -89,7 +88,7 @@ class KSUID {
 
   get string () {
     const encoded = base62.encode(bufferLookup.get(this), STRING_ENCODED_LENGTH)
-    return padStart(encoded, STRING_ENCODED_LENGTH, '0')
+    return encoded.padStart(STRING_ENCODED_LENGTH, '0')
   }
 
   compare (other) {

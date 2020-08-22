@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "description": "Node.js implementation of K-Sortable Globally Unique IDs",
   "engine": {
-    "node": ">=6 <7 || >=8 <9 || >=10"
+    "node": ">=10 <11 || >=12 <13 || >=14"
   },
   "main": "index.js",
   "types": "index.d.ts",
@@ -31,8 +31,7 @@
   },
   "homepage": "https://github.com/novemberborn/ksuid#readme",
   "dependencies": {
-    "base-convert-int-array": "^1.0.1",
-    "string.prototype.padstart": "^3.0.0"
+    "base-convert-int-array": "^1.0.1"
   },
   "devDependencies": {
     "@novemberborn/as-i-preach": "^10.1.0",
