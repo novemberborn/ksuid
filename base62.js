@@ -4,7 +4,7 @@ const baseConvertIntArray = require('base-convert-int-array')
 const CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 
 function encode (buffer, fixedLength) {
-  return baseConvertIntArray(buffer, {from: 256, to: 62, fixedLength})
+  return baseConvertIntArray(buffer, { from: 256, to: 62, fixedLength })
     .map(value => CHARS[value])
     .join('')
 }
@@ -18,6 +18,6 @@ function decode (string, fixedLength) {
     if (charCode < 91) return charCode - 55
     return charCode - 61
   })
-  return Buffer.from(baseConvertIntArray(input, {from: 62, to: 256, fixedLength}))
+  return Buffer.from(baseConvertIntArray(input, { from: 62, to: 256, fixedLength }))
 }
 exports.decode = decode

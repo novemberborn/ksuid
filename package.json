@@ -3,18 +3,16 @@
   "version": "1.2.0",
   "description": "Node.js implementation of K-Sortable Globally Unique IDs",
   "engine": {
-    "node": ">=6 <7 || >=8 <9 || >=10"
+    "node": ">=10 <11 || >=12 <13 || >=14"
   },
   "main": "index.js",
-  "types": "index.d.ts",
   "files": [
     "index.js",
     "index.d.ts",
     "base62.js"
   ],
   "scripts": {
-    "lint": "as-i-preach",
-    "test": "npm run -s lint && tsc --noEmit test/typings.ts && nyc ava"
+    "test": "standard && tsd && c8 ava"
   },
   "repository": {
     "type": "git",
@@ -31,24 +29,14 @@
   },
   "homepage": "https://github.com/novemberborn/ksuid#readme",
   "dependencies": {
-    "base-convert-int-array": "^1.0.1",
-    "string.prototype.padstart": "^3.0.0"
+    "base-convert-int-array": "^1.0.1"
   },
   "devDependencies": {
-    "@novemberborn/as-i-preach": "^10.1.0",
-    "@types/node": "^10.12.18",
-    "ava": "^1.1.0",
-    "codecov": "^3.1.0",
-    "lolex": "^3.0.0",
-    "nyc": "^13.1.0",
-    "typescript": "^3.2.4"
-  },
-  "nyc": {
-    "reporter": [
-      "html",
-      "lcov",
-      "text"
-    ]
-  },
-  "standard-engine": "@novemberborn/as-i-preach"
+    "@sinonjs/fake-timers": "^6.0.1",
+    "@types/node": "^10.17.28",
+    "ava": "^3.11.1",
+    "c8": "^7.3.0",
+    "standard": "^14.3.4",
+    "tsd": "^0.13.1"
+  }
 }

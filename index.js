@@ -1,29 +1,16 @@
 'use strict'
-
-const {randomBytes} = require('crypto')
-const {inspect: {custom: customInspectSymbol}} = require('util')
-const padStart = require('string.prototype.padstart')
+const { randomBytes } = require('crypto')
+const { inspect: { custom: customInspectSymbol }, promisify } = require('util')
 const base62 = require('./base62')
 
-function asyncRandomBytes (size) {
-  return new Promise((resolve, reject) => {
-    randomBytes(size, (err, bytes) => {
-      /* istanbul ignore if */
-      if (err) {
-        reject(err)
-      } else {
-        resolve(bytes)
-      }
-    })
-  })
-}
+const asyncRandomBytes = promisify(randomBytes)
 
 // KSUID's epoch starts more recently so that the 32-bit number space gives a
 // significantly higher useful lifetime of around 136 years from March 2014.
 // This number (14e11) was picked to be easy to remember.
 const EPOCH_IN_MS = 14e11
 
-const MAX_TIME_IN_MS = 1e3 * (Math.pow(2, 32) - 1) + EPOCH_IN_MS
+const MAX_TIME_IN_MS = 1e3 * (2 ** 32 - 1) + EPOCH_IN_MS
 
 // Timestamp is a uint32
 const TIMESTAMP_BYTE_LENGTH = 4
@@ -89,7 +76,7 @@ class KSUID {
 
   get string () {
     const encoded = base62.encode(bufferLookup.get(this), STRING_ENCODED_LENGTH)
-    return padStart(encoded, STRING_ENCODED_LENGTH, '0')
+    return encoded.padStart(STRING_ENCODED_LENGTH, '0')
   }
 
   compare (other) {
@@ -112,8 +99,9 @@ class KSUID {
     return this.toString()
   }
 
-  static random () {
-    return asyncRandomBytes(PAYLOAD_BYTE_LENGTH).then(payload => new KSUID(fromParts(Date.now(), payload)))
+  static async random () {
+    const payload = await asyncRandomBytes(PAYLOAD_BYTE_LENGTH)
+    return new KSUID(fromParts(Date.now(), payload))
   }
 
   static randomSync () {
@@ -153,10 +141,10 @@ class KSUID {
     return new KSUID(buffer)
   }
 }
-Object.defineProperty(KSUID.prototype, Symbol.toStringTag, {value: 'KSUID'})
+Object.defineProperty(KSUID.prototype, Symbol.toStringTag, { value: 'KSUID' })
 // A string-encoded maximum value for a KSUID
-Object.defineProperty(KSUID, 'MAX_STRING_ENCODED', {value: 'aWgEPTl1tmebfsQzFP4bxwgy80V'})
+Object.defineProperty(KSUID, 'MAX_STRING_ENCODED', { value: 'aWgEPTl1tmebfsQzFP4bxwgy80V' })
 // A string-encoded minimum value for a KSUID
-Object.defineProperty(KSUID, 'MIN_STRING_ENCODED', {value: '000000000000000000000000000'})
+Object.defineProperty(KSUID, 'MIN_STRING_ENCODED', { value: '000000000000000000000000000' })
 
 module.exports = KSUID

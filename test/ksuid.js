@@ -1,11 +1,11 @@
-import {randomBytes} from 'crypto'
-import {inspect} from 'util'
-import test from 'ava'
-import lolex from 'lolex'
+const { randomBytes } = require('crypto')
+const { inspect } = require('util')
+const test = require('ava')
+const fakeTimers = require('@sinonjs/fake-timers')
 
-import KSUID from '..'
+const KSUID = require('..')
 
-const clock = lolex.install({now: 14e11, toFake: ['Date']})
+const clock = fakeTimers.install({ now: 14e11, toFake: ['Date'] })
 
 test.serial('created with the current time', t => {
   const x = KSUID.randomSync()
@@ -31,7 +31,7 @@ test('strings are padded', t => {
 })
 
 test('can parse strings', t => {
-  t.throws(() => KSUID.parse('123'), TypeError)
+  t.throws(() => KSUID.parse('123'), { name: 'TypeError' })
 
   const zero = new KSUID(Buffer.alloc(20, 0))
   const parsedZero = KSUID.parse('0'.repeat(27))
@@ -49,9 +49,9 @@ test('encode and decode', t => {
 })
 
 test('throws if called without valid buffer', t => {
-  t.throws(() => new KSUID(), TypeError)
-  t.throws(() => new KSUID('foo'), TypeError)
-  t.throws(() => new KSUID(Buffer.from('foo')), TypeError)
+  t.throws(() => new KSUID(), { name: 'TypeError' })
+  t.throws(() => new KSUID('foo'), { name: 'TypeError' })
+  t.throws(() => new KSUID(Buffer.from('foo')), { name: 'TypeError' })
 })
 
 test('buffer accessor returns new buffers', t => {
@@ -118,17 +118,17 @@ test('KSUID.random() returns a promise for a new instance', async t => {
 })
 
 test('KSUID.fromParts() validates timeInMs', t => {
-  const {message: notInt} = t.throws(() => KSUID.fromParts('foo', Buffer.alloc(16)), TypeError)
-  const {message: tooEarly} = t.throws(() => KSUID.fromParts(0, Buffer.alloc(16)), TypeError)
-  const {message: tooLate} = t.throws(() => KSUID.fromParts(1e3 * (2 ** 32 - 1) + 14e11 + 1, Buffer.alloc(16)), TypeError)
+  const { message: notInt } = t.throws(() => KSUID.fromParts('foo', Buffer.alloc(16)), { name: 'TypeError' })
+  const { message: tooEarly } = t.throws(() => KSUID.fromParts(0, Buffer.alloc(16)), { name: 'TypeError' })
+  const { message: tooLate } = t.throws(() => KSUID.fromParts(1e3 * (2 ** 32 - 1) + 14e11 + 1, Buffer.alloc(16)), { name: 'TypeError' })
   t.true(new Set([notInt, tooEarly, tooLate]).size === 1)
   t.is(notInt, 'Valid KSUID timestamps must be in milliseconds since 1970-01-01T00:00:00Z, no earlier than 2014-05-13T16:53:20Z and no later than 2150-06-19T23:21:35Z') // eslint-disable-line max-len
 })
 
 test('KSUID.fromParts() validates payload', t => {
-  const {message: notInt} = t.throws(() => KSUID.fromParts(Date.now(), 'foo'), TypeError)
-  const {message: tooSmall} = t.throws(() => KSUID.fromParts(Date.now(), Buffer.alloc(15)), TypeError)
-  const {message: tooLarge} = t.throws(() => KSUID.fromParts(Date.now(), Buffer.alloc(17)), TypeError)
+  const { message: notInt } = t.throws(() => KSUID.fromParts(Date.now(), 'foo'), { name: 'TypeError' })
+  const { message: tooSmall } = t.throws(() => KSUID.fromParts(Date.now(), Buffer.alloc(15)), { name: 'TypeError' })
+  const { message: tooLarge } = t.throws(() => KSUID.fromParts(Date.now(), Buffer.alloc(17)), { name: 'TypeError' })
   t.true(new Set([notInt, tooSmall, tooLarge]).size === 1)
   t.is(notInt, 'Valid KSUID payloads are 16 bytes')
 })

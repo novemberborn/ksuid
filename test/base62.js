@@ -1,5 +1,5 @@
-import test from 'ava'
-import base62 from '../base62'
+const test = require('ava')
+const base62 = require('../base62')
 
 test('values can be encoded and decoded', t => {
   const input = Buffer.from([255, 254, 253, 251])
