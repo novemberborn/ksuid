@@ -1,7 +1,7 @@
 'use strict'
 
-const {randomBytes} = require('crypto')
-const {inspect: {custom: customInspectSymbol}} = require('util')
+const { randomBytes } = require('crypto')
+const { inspect: { custom: customInspectSymbol } } = require('util')
 const base62 = require('./base62')
 
 function asyncRandomBytes (size) {
@@ -152,10 +152,10 @@ class KSUID {
     return new KSUID(buffer)
   }
 }
-Object.defineProperty(KSUID.prototype, Symbol.toStringTag, {value: 'KSUID'})
+Object.defineProperty(KSUID.prototype, Symbol.toStringTag, { value: 'KSUID' })
 // A string-encoded maximum value for a KSUID
-Object.defineProperty(KSUID, 'MAX_STRING_ENCODED', {value: 'aWgEPTl1tmebfsQzFP4bxwgy80V'})
+Object.defineProperty(KSUID, 'MAX_STRING_ENCODED', { value: 'aWgEPTl1tmebfsQzFP4bxwgy80V' })
 // A string-encoded minimum value for a KSUID
-Object.defineProperty(KSUID, 'MIN_STRING_ENCODED', {value: '000000000000000000000000000'})
+Object.defineProperty(KSUID, 'MIN_STRING_ENCODED', { value: '000000000000000000000000000' })
 
 module.exports = KSUID
