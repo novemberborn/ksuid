@@ -1,5 +1,5 @@
 name: Install and test package
-on: push
+on: [push, pull_request]
 jobs:
   nodejs:
     name: Node.js
