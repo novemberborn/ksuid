@@ -32,6 +32,13 @@ Or asynchronously:
 const ksuidFromAsync = await KSUID.random()
 ```
 
+You can also specify a specific time, either in milliseconds or as a `Date` object:
+
+```js
+const ksuidFromDate = KSUID.randomSync(new Date("2014-05-25T16:53:20Z"))
+const ksuidFromMillisecondsAsync = await KSUID.random(1401036800000)
+```
+
 Or you can compose it using a timestamp and a 16-byte payload:
 
 ```js

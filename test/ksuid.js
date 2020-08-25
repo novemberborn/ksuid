@@ -18,6 +18,30 @@ test.serial('provides the uncorrected timestamp in seconds', t => {
   t.is(x.timestamp * 1e3, Date.now() - 14e11)
 })
 
+test('random accepts milliseconds value', async t => {
+  const ms = (new Date(2025, 4, 15)).getTime()
+  const x = await KSUID.random(ms)
+  t.is(x.timestamp * 1e3, ms - 14e11)
+})
+
+test('randomSync accepts milliseconds value', t => {
+  const ms = (new Date(2025, 4, 15)).getTime()
+  const x = KSUID.randomSync(ms)
+  t.is(x.timestamp * 1e3, ms - 14e11)
+})
+
+test('random accepts date value', async t => {
+  const d = new Date(2014, 4, 15)
+  const x = await KSUID.random(d)
+  t.is(x.timestamp * 1e3, d.getTime() - 14e11)
+})
+
+test('randomSync accepts date value', t => {
+  const d = new Date(2014, 4, 15)
+  const x = KSUID.randomSync(d)
+  t.is(x.timestamp * 1e3, d.getTime() - 14e11)
+})
+
 test('encodes as a string', t => {
   const x = new KSUID(Buffer.alloc(20))
   const expected = '0'.repeat(27)
