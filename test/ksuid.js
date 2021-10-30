@@ -132,8 +132,8 @@ test('toString()', t => {
 
 test('toJSON()', t => {
   const x = KSUID.randomSync()
-  const jsonString = x.toJSON()
-  t.is(KSUID.parse(jsonString).string, jsonString)
+  const stringified = JSON.stringify(x)
+  t.is(KSUID.parse(JSON.parse(stringified)).string, jsonString)
 })
 
 test('[util.inspect.custom]()', t => {
