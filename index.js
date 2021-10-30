@@ -94,7 +94,7 @@ class KSUID {
   toString () {
     return `${this[Symbol.toStringTag]} { ${this.string} }`
   }
-  
+
   toJSON () {
     return this.string
   }
