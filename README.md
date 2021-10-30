@@ -1,6 +1,6 @@
 # ksuid
 
-A Node.js implementation of [Segment's KSUID library](https://github.com/segmentio/ksuid). Supports Node.js 10, 12, 14 and newer.
+A Node.js implementation of [Segment's KSUID library](https://github.com/segmentio/ksuid).
 
 You may also be interested in [`ksuid-cli`](https://www.npmjs.com/package/ksuid-cli).
 
