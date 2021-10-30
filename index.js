@@ -95,6 +95,10 @@ class KSUID {
     return `${this[Symbol.toStringTag]} { ${this.string} }`
   }
 
+  toJSON () {
+    return this.string
+  }
+
   [customInspectSymbol] () {
     return this.toString()
   }

@@ -9,6 +9,7 @@ declare class KSUID {
     compare(other: KSUID): number;
     equals(other: KSUID): boolean;
     toString(): string;
+    toJSON(): string;
     static random(): Promise<KSUID>;
     static random(timeInMs: number): Promise<KSUID>;
     static random(date: Date): Promise<KSUID>;
