@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Node.js implementation of K-Sortable Globally Unique IDs",
   "engine": {
-    "node": ">=10 <11 || >=12 <13 || >=14"
+    "node": ">=12 <13 || >=14 <15 || >=16"
   },
   "main": "index.js",
   "files": [
